@@ -1,0 +1,47 @@
+{
+  "manifest_version": 2,
+
+  "name": "Lithium Studio Editors Enhancement",
+  "description": "This extension aims to extend the functionality of Studio Editor text areas by adding syntax highlighting, line numbers, etc...",
+  "version": "1.0",
+  "content_scripts": [
+    {                   
+      "matches": ["*://*/t5/bizapps/page/tab/community%3Astudio%3Acustom-content*",
+                  "*://*/t5/bizapps/bizappspage/tab/community%3Astudio%3Acustom-content*",
+                  "*://*/t5/bizapps/page/tab/community%3Astudio%3Apage-editor*",
+                  "*://*/t5/bizapps/bizappspage/tab/community%3Astudio%3Apage-editor*",
+                  "*://*/t5/bizapps/page/tab/community%3Astudio%3Aendpoints*",
+                  "*://*/t5/bizapps/bizappspage/tab/community%3Astudio%3Aendpoints*",
+                  "*://*/t5/bizapps/bizappspage/tab/community%3Astudio%3Acommunity-style%3Awrapper*",
+                  "*://*/t5/bizapps/page/tab/community%3Astudio%3Acommunity-style%3Awrapper*",
+                  "*://*/t5/bizapps/page/tab/community%3Astudio%3Alayout-editor*",
+                  "*://*//t5/bizapps/bizappspage/tab/community%3Astudio%3Alayout-editor*"],
+      "css": ["css/codemirror.css", 
+              "css/show-hint.css",
+              "css/docs.css"],
+      "js": ["js/jquery.js",
+             "js/jquery-ui.min.js",
+             "js/codemirror.js",  
+             "js/brace-fold.js",    
+             "js/comment-fold.js",  
+             "js/foldcode.js",  
+             "js/htmlmixed.js",  
+             "js/matchbrackets.js",  
+             "js/show-hint.js",  
+             "js/xml-fold.js",  
+             "js/xml.js",
+             "js/xml-ftl.js",  
+             "js/css.js",  
+             "js/foldgutter.js",  
+             "js/javascript.js",  
+             "js/matchtags.js",  
+             "js/vbscript.js",  
+             "js/xml-hint.js",
+             "js/init.js"
+        ]
+    }
+  ],
+ "permissions": [
+    "tabs" , "*://*/t5/bizapps/page/tab/community%3Astudio%3Acustom-content*"
+  ]
+}
