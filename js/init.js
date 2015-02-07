@@ -194,8 +194,6 @@ var enhanceEndpointEditor = function() {
 
 var tab = decodeURIComponent(getStudioTab());
 tab = tab.replace("community:studio:", "");
-console.log("Tab is " + tab);
-
 
 switch (tab) {
   case "custom-content" :
