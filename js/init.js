@@ -2,7 +2,7 @@ console.log("Studio Enhance extension loaded");
 
 var getStudioTab = function(){
   var url = document.location.href;
-  console.log("Url is " + url);
+
   var res = "";
 
   var urlTabs = url.split("/tab/");
@@ -10,6 +10,8 @@ var getStudioTab = function(){
 
   if (urlTabs && urlTabs != null && urlTabs.length > 0){
      var res = urlTabs[urlTabs.length - 1].split("/")[0].split("?")[0];
+     res = decodeURIComponent(res).split(":");
+     res = res[res.length - 1];
   }
 
   return res;
@@ -21,7 +23,9 @@ var getEditorOption = function(mode){
          mode: mode,
          lineNumbers: true,
          lineWrapping: true,
-         foldGutter: true,
+         foldGutter: {
+                        rangeFinder: new CodeMirror.fold.combine(CodeMirror.fold.brace, CodeMirror.fold.comment)
+         },
          gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"],
          matchTags: {bothTags: true},
          matchBrackets: true,
@@ -191,10 +195,22 @@ var enhanceEndpointEditor = function() {
     }
 }
 
+var enhanceApiBrowser = function() {
+	$(".CodeMirror.cm-s-default").remove(); //Replace the default Code Mirror 
+    var textarea = document.getElementById("searchResults");
+    if (textarea != null) {
+      var options = getEditorOption("application/json");
+      options.autoCloseBrackets = true;
+      var editor = CodeMirror.fromTextArea(textarea, options);
+	  $('.CodeMirror').resizable({
+		resize: function() {
+			editor.setSize($(this).width(), $(this).height());
+		}
+	   });
+    }
+}
 
-var tab = decodeURIComponent(getStudioTab());
-tab = tab.replace("community:studio:", "");
-
+var tab = getStudioTab();
 switch (tab) {
   case "custom-content" :
    enhanceComponentEditor();
@@ -215,4 +231,7 @@ switch (tab) {
   case "endpoints" :
    enhanceEndpointEditor();
    break;
-  }
+  case "api-browser" :
+    enhanceApiBrowser();
+    break;
+}
