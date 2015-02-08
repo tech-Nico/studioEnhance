@@ -17,27 +17,54 @@ var getStudioTab = function(){
   return res;
 }
 
-var getEditorOption = function(mode){
+var getEditorOption = function(mode, callback){
+  var syntaxHighlight = true;
+  var lineNumbers = true;
+  var wrapLines = true;
+  var matchTag = true;
+  var matchBracket = true;
+  var codeHint = true;
 
-	return {
-         mode: mode,
-         lineNumbers: true,
-         lineWrapping: true,
-         foldGutter: {
+ chrome.storage.sync.get({
+    syntaxHighlight: true,
+    lineNumbers: true,
+    wrapLines : true,
+    matchTag: true,
+    matchBracket : true,
+    codeHint : true
+  }, function(items) {
+  		console.log("Setting options to ... ");
+  		console.log(items);
+    	var options = {
+        	 mode: mode,
+         	lineNumbers: items.lineNumbers,
+         	lineWrapping: items.wrapLines,
+         	foldGutter: {
                         rangeFinder: new CodeMirror.fold.combine(CodeMirror.fold.brace, CodeMirror.fold.comment)
-         },
-         gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"],
-         matchTags: {bothTags: true},
-         matchBrackets: true,
-	     extraKeys: {
-            "'<'": completeAfter,
-            "'/'": completeIfAfterLt,
-            "' '": completeIfInTag,
-            "'='": completeIfInTag,
-            "Ctrl-Space": "autocomplete"
-         },
-         hintOptions: {schemaInfo: tags}
-    };
+         	},
+         	gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"],
+         	matchTags: {bothTags: items.matchTag},
+         	matchBrackets: items.matchBracket,
+	     	extraKeys: {
+            	"'<'": completeAfter,
+            	"'/'": completeIfAfterLt,
+            	"' '": completeIfInTag,
+            	"'='": completeIfInTag,
+            	"Ctrl-Space": "autocomplete"
+         	},
+    	};
+
+    	if (codeHint)
+    		options.hintOptions = {schemaInfo: tags};
+    	if (!items.syntaxHighlight){
+    		options.mode = "";
+    	}
+
+    	console.log("Setting FINAL options to...");
+    	console.log(options);
+    	callback(options);
+  });
+
 };
 
 
@@ -108,40 +135,46 @@ var _return = {
 var enhanceComponentEditor = function(){
 	var textarea = document.getElementById("lia-componentContent");
 	if (textarea != null) {
-		var mode = getEditorOption("text/html");
-  		var editor = CodeMirror.fromTextArea(document.getElementById("lia-componentContent"),mode);
-	  		$('.CodeMirror').resizable({
-				resize: function() {
-				editor.setSize($(this).width(), $(this).height());
-				}
-	   		});
-    	}
+		 getEditorOption("text/html", 
+			function(mode){
+  				var editor = CodeMirror.fromTextArea(document.getElementById("lia-componentContent"),mode);
+	  			$('.CodeMirror').resizable({
+											resize: function() {
+											editor.setSize($(this).width(), $(this).height());
+											}
+	   			});
+    		});
     }
+}
 
 
 var enhancePageEditor = function(){ 
      $(".QuiltEditorTab").bind("LITHIUM:updateFormWatch", function(e){
        if ($(e.target).hasClass("admin-xml-tab")){
-       	   var editor = CodeMirror.fromTextArea(document.getElementsByClassName("lia-quilt-editor-xml")[0], getEditorOption("text/xml"));
+       	  getEditorOption("text/xml", function(mode){	
+       	   var editor = CodeMirror.fromTextArea(document.getElementsByClassName("lia-quilt-editor-xml")[0], mode);
 		   $('.CodeMirror').resizable({
-		    resize: function() {
-			editor.setSize($(this).width(), $(this).height());
-		}
-	   });
+		    							resize: function() {
+															editor.setSize($(this).width(), $(this).height());
+												}	
+									});
+		});
        }
   	 });
-
 }
 
 var enhanceLayoutEditor = function(){ 
    $.jQuery(".LayoutEditorTab").bind("LITHIUM:updateFormWatch", function(e){
        if ($.jQuery(e.target).hasClass("admin-xml-tab")){
-       	   var editor = CodeMirror.fromTextArea(document.getElementsByClassName("lia-layout-editor-xml")[0], getEditorOption("text/xml"));
-		   $('.CodeMirror').resizable({
-		    resize: function() {
-			editor.setSize($(this).width(), $(this).height());
-		}
-	   });
+       	  getEditorOption("text/xml", function(mode){
+ 			var editor = CodeMirror.fromTextArea(document.getElementsByClassName("lia-layout-editor-xml")[0], mode);
+		   	$('.CodeMirror').resizable({
+		    							resize: function() {
+											editor.setSize($(this).width(), $(this).height());
+										}
+	   								});
+
+       	  });
        }
   	 });
 }
@@ -151,34 +184,37 @@ var enhanceWrapperEditor = function(){
 	var liaHeader = $("#lia-header");
 	var liaFooter = $("#lia-footer");
 	var liaHitbox = $("#lia-hitbox");
-	var defaultOptions = getEditorOption("text/html");
+	getEditorOption("text/html", function(defaultOptions){
 
-	if (liaHead.attr("disabled") == undefined){
-      var editorHitbox = CodeMirror.fromTextArea(liaHitbox.get(0), defaultOptions);
-      var editorFooter = CodeMirror.fromTextArea(liaFooter.get(0), defaultOptions);
-      var editorHeader = CodeMirror.fromTextArea(liaHeader.get(0), defaultOptions);
-      var editorHead = CodeMirror.fromTextArea(liaHead.get(0),defaultOptions);
+		if (liaHead.attr("disabled") == undefined){
+      		var editorHitbox = CodeMirror.fromTextArea(liaHitbox.get(0), defaultOptions);
+      		var editorFooter = CodeMirror.fromTextArea(liaFooter.get(0), defaultOptions);
+      		var editorHeader = CodeMirror.fromTextArea(liaHeader.get(0), defaultOptions);
+      		var editorHead = CodeMirror.fromTextArea(liaHead.get(0),defaultOptions);
     
-      $('.CodeMirror').resizable({
-        resize: function() {
-          editorHead.setSize($(this).width(), $(this).height());
-          editorHeader.setSize($(this).width(), $(this).height());
-          editorFooter.setSize($(this).width(), $(this).height());
-          editorHitbox.setSize($(this).width(), $(this).height());			
-      	}
-	  });
-    }
+      		$('.CodeMirror').resizable({
+        		resize: function() {
+          					editorHead.setSize($(this).width(), $(this).height());
+          					editorHeader.setSize($(this).width(), $(this).height());
+          					editorFooter.setSize($(this).width(), $(this).height());
+          					editorHitbox.setSize($(this).width(), $(this).height());			
+      			}
+	  		});
+    	}
+	});
 }
 
 var enhanceCssEditor = function() { 
      var textarea = $("#lia-skinCss");
      if (textarea.attr("disabled") == undefined){         
-       var editor = CodeMirror.fromTextArea(textarea.get(0), getEditorOption("text/css"));
-	   $('.CodeMirror').resizable({
-		 resize: function() {
-		   editor.setSize($(this).width(), $(this).height());
-	     }
-	   });
+       getEditorOption("text/css", function(mode) {
+       	var editor = CodeMirror.fromTextArea(textarea.get(0), mode);
+	   	$('.CodeMirror').resizable({
+		 							resize: function() {
+		   								editor.setSize($(this).width(), $(this).height());
+	     							}
+	   								});
+       });	
      }
 }
 
@@ -186,52 +222,71 @@ var enhanceCssEditor = function() {
 var enhanceEndpointEditor = function() {
     var textarea = document.getElementById("lia-content");
     if (textarea != null) {
-      var editor = CodeMirror.fromTextArea(document.getElementById("lia-content"), getEditorOption("text/html"));
-	  $('.CodeMirror').resizable({
-		resize: function() {
-			editor.setSize($(this).width(), $(this).height());
-		}
-	   });
+    	getEditorOption("text/html", function(mode) {
+    		var editor = CodeMirror.fromTextArea(document.getElementById("lia-content"), mode);
+	  		$('.CodeMirror').resizable({
+										resize: function() {
+													editor.setSize($(this).width(), $(this).height());
+										}
+	   								});		
+    	});
+      
     }
 }
 
 var enhanceApiBrowser = function() {
-	$(".CodeMirror.cm-s-default").remove(); //Replace the default Code Mirror 
-    var textarea = document.getElementById("searchResults");
+	var textarea = document.getElementById("searchResults");
     if (textarea != null) {
-      var options = getEditorOption("application/json");
-      options.autoCloseBrackets = true;
-      var editor = CodeMirror.fromTextArea(textarea, options);
-	  $('.CodeMirror').resizable({
-		resize: function() {
-			editor.setSize($(this).width(), $(this).height());
-		}
-	   });
+      var options = getEditorOption("application/json", function(options){
+      	options.autoCloseBrackets = true;
+      	var editor = CodeMirror.fromTextArea(textarea, options);
+	  	$('.CodeMirror').resizable({
+			resize: function() {
+									editor.setSize($(this).width(), $(this).height());
+								}
+	   	});	
+      });
     }
 }
 
-var tab = getStudioTab();
-switch (tab) {
-  case "custom-content" :
-   enhanceComponentEditor();
-  break;
-  case "page-editor" :
-  case "studio" :
-   enhancePageEditor();
-   break;
-  case "layout-editor" :
-   enhanceLayoutEditor();
-   break;
-  case "community-style:wrapper" :
-   enhanceWrapperEditor();
-   break;
-  case "css" :
-   enhanceCssEditor();
-   break;
-  case "endpoints" :
-   enhanceEndpointEditor();
-   break;
-  case "api-browser" :
-    enhanceApiBrowser();
-    break;
+var enableEnhancement = function() {
+	$(".CodeMirror.cm-s-default").remove(); //Replace any existing Codemirror instance
+	var tab = getStudioTab();
+	switch (tab) {
+	  case "custom-content" :
+	   enhanceComponentEditor();
+	  break;
+	  case "page-editor" :
+	  case "studio" :
+	   enhancePageEditor();
+	   break;
+	  case "layout-editor" :
+	   enhanceLayoutEditor();
+	   break;
+	  case "community-style:wrapper" :
+	   enhanceWrapperEditor();
+	   break;
+	  case "css" :
+	   enhanceCssEditor();
+	   break;
+	  case "endpoints" :
+	   enhanceEndpointEditor();
+	   break;
+	  case "api-browser" :
+	    enhanceApiBrowser();
+	    break;
+	}
 }
+
+//Refresh the editor after an option has been changed:
+chrome.runtime.onMessage.addListener(
+  function(request, sender, sendResponse) {
+    console.log(sender.tab ?
+                "from a content script:" + sender.tab.url :
+                "from the extension");
+    if (request == "refresh"){
+      enableEnhancement();
+    }
+  });
+
+enableEnhancement();

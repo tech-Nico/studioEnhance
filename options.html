@@ -3,18 +3,25 @@
 <body>
 	
 	Switch Feature on/off
-	
-  <input type="checkbox" value="syntaxHighlight" name="syntaxHighlight">Syntax Highlight</input>
-  <input type="checkbox" value="lineNumbers" name="lineNumbers">Line Numbers</input>
-  <input type="checkbox" value="wrapLines" name="wrapLines">Wrap Lines</input>
-  <input type="checkbox" value="matchTag" name="matchTag">Highlight Matching Tag</input>
-  <input type="checkbox" value="matchBracket" name="matchBracket">Highlight Matching Bracket</input>
-  <input type="checkbox" value="codeHint" name="codeHint">Code Completion (ctrl+space)</input>
-	
+ <div id="options">	
+  <div class="option"><input type="checkbox" value="syntaxHighlight" id="syntaxHighlight">Syntax Highlight</input></div>
+  <div class="option"><input type="checkbox" value="lineNumbers" id="lineNumbers">Line Numbers</input></div>
+  <div class="option"><input type="checkbox" value="wrapLines" id="wrapLines">Wrap Lines</input></div>
+  <div class="option"><input type="checkbox" value="matchTag" id="matchTag">Highlight Matching Tag</input></div>
+  <div class="option"><input type="checkbox" value="matchBracket" id="matchBracket">Highlight Matching Bracket</input></div>
+  <div class="option"><input type="checkbox" value="codeHint" id="codeHint">Code Completion (ctrl+space)</input></div>
+</div>	
   <div id="status"></div>
   <button id="save">Save</button>
 
    
 <script src="js/options.js"></script>
+
+<style>
+  body {
+  	width: 200px;
+  	height: 100px;
+  }
+</style>
 </body>
 </html>

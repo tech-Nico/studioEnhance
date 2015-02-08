@@ -6,6 +6,10 @@
   "version": "1.3",
   "author" : "Nico Balestra",
   "icons" : {"128" : "icon_128.png"},
+  "background": {
+    "scripts": ["js/background.js"],
+     "persistent": false
+   },
   "content_scripts": [
     {                   
       "matches": ["*://*/t5/bizapps/page/tab/community%3Astudio%3Acustom-content*",
@@ -50,23 +54,13 @@
     "page" : "options.html",
     "chrome_style" : true
   },
- "permissions": [
-    "tabs", 
-    "*://*/t5/bizapps/page/tab/community%3Astudio%3Acustom-content*",
-    "*://*/t5/bizapps/bizappspage/tab/community%3Astudio%3Acustom-content*",
-    "*://*/t5/bizapps/page/tab/community%3Astudio%3Apage-editor*",
-    "*://*/t5/bizapps/bizappspage/tab/community%3Astudio%3Apage-editor*",
-    "*://*/t5/bizapps/page/tab/community%3Astudio%3Aendpoints*",
-    "*://*/t5/bizapps/bizappspage/tab/community%3Astudio%3Aendpoints*",
-    "*://*/t5/bizapps/bizappspage/tab/community%3Astudio%3Acommunity-style%3Awrapper*",
-    "*://*/t5/bizapps/page/tab/community%3Astudio%3Acommunity-style%3Awrapper*",
-    "*://*/t5/bizapps/page/tab/community%3Astudio%3Alayout-editor*",
-    "*://*/t5/bizapps/bizappspage/tab/community%3Astudio%3Alayout-editor*",
-    "*://*/t5/bizapps/bizappspage/tab/community%3Astudio%3Aapi-browser*"]
-  ,
+  "permissions" : [
+      "declarativeContent",
+      "storage"
+  ],
    "page_action": {
       "default_name": "Set Options",
-      "default_icon": "icon_128.png",
+      "default_icon": "icon_48.png",
       "default_popup": "options.html"
   }
 }
