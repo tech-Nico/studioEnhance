@@ -4,7 +4,6 @@
   "name": "Lithium Studio Editor Enhancement",
   "description": "Extends the functionality of Lithium Studio Editor by adding syntax highlighting, line numbers, code folding, etc...",
   "version": "1.3",
-  "version_name" : "1.3 beta",
   "author" : "Nico Balestra",
   "icons" : {"128" : "icon_128.png"},
   "content_scripts": [
@@ -26,27 +25,48 @@
               "css/foldgutter.css"],
       "js": ["js/jquery.js",
              "js/jquery-ui.min.js",
-             "js/codemirror.js",  
-             "js/htmlmixed.js",  
-             "js/matchbrackets.js",  
-             "js/show-hint.js",  
-             "js/xml.js",
+             "js/codemirror/codemirror.js",  
+             "js/codemirror/htmlmixed.js",  
+             "js/codemirror/matchbrackets.js",  
+             "js/codemirror/show-hint.js",  
+             "js/codemirror/xml.js",
              "js/xml-ftl.js",  
-             "js/css.js",  
-             "js/foldgutter.js",  
-             "js/javascript.js",  
-             "js/matchtags.js",  
-             "js/vbscript.js",  
-             "js/xml-hint.js",
-             "js/foldcode.js",  
-             "js/brace-fold.js",    
-             "js/comment-fold.js",  
-             "js/xml-fold.js",  
+             "js/codemirror/css.js",  
+             "js/codemirror/foldgutter.js",  
+             "js/codemirror/javascript.js",  
+             "js/codemirror/matchtags.js",  
+             "js/codemirror/vbscript.js",  
+             "js/codemirror/xml-hint.js",
+             "js/codemirror/foldcode.js",  
+             "js/codemirror/brace-fold.js",    
+             "js/codemirror/comment-fold.js",  
+             "js/codemirror/xml-fold.js",  
              "js/init.js"
         ]
     }
   ],
+  "options_page" : "options.html",
+  "options_ui" : {
+    "page" : "options.html",
+    "chrome_style" : true
+  },
  "permissions": [
-    "tabs" , "*://*/t5/bizapps/page/tab/community%3Astudio%3Acustom-content*"
-  ]
+    "tabs", 
+    "*://*/t5/bizapps/page/tab/community%3Astudio%3Acustom-content*",
+    "*://*/t5/bizapps/bizappspage/tab/community%3Astudio%3Acustom-content*",
+    "*://*/t5/bizapps/page/tab/community%3Astudio%3Apage-editor*",
+    "*://*/t5/bizapps/bizappspage/tab/community%3Astudio%3Apage-editor*",
+    "*://*/t5/bizapps/page/tab/community%3Astudio%3Aendpoints*",
+    "*://*/t5/bizapps/bizappspage/tab/community%3Astudio%3Aendpoints*",
+    "*://*/t5/bizapps/bizappspage/tab/community%3Astudio%3Acommunity-style%3Awrapper*",
+    "*://*/t5/bizapps/page/tab/community%3Astudio%3Acommunity-style%3Awrapper*",
+    "*://*/t5/bizapps/page/tab/community%3Astudio%3Alayout-editor*",
+    "*://*/t5/bizapps/bizappspage/tab/community%3Astudio%3Alayout-editor*",
+    "*://*/t5/bizapps/bizappspage/tab/community%3Astudio%3Aapi-browser*"]
+  ,
+   "page_action": {
+      "default_name": "Set Options",
+      "default_icon": "icon_128.png",
+      "default_popup": "options.html"
+  }
 }
