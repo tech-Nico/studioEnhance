@@ -4,12 +4,14 @@
     // With a new rule ...
 	    chrome.declarativeContent.onPageChanged.addRules([
 	      {
-	        // That fires when a page's URL contains a 'g' ...
 	        conditions: [
 	          new chrome.declarativeContent.PageStateMatcher({
-	            pageUrl: { urlContains: '/t5/bizapps/bizappspage/tab/community%3Astudio%3A' },
+	            pageUrl: { urlContains: '/t5/bizapps/bizappspage/tab/community%3Astudio' },
+	          }),
+	          new chrome.declarativeContent.PageStateMatcher({
+	            pageUrl: { urlContains: '/t5/bizapps/page/tab/community%3Astudio' },
 	          })
-	        ],
+ 	        ],
 	        // And shows the extension's page action.
 	        actions: [ new chrome.declarativeContent.ShowPageAction() ]
 	      }

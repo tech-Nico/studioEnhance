@@ -29,7 +29,6 @@ function save_options() {
 }
 
 function restore_options() {
-  console.log("Called restore_options");
   //Use default values if the storage is empty. Enable everything
   chrome.storage.sync.get({
     syntaxHighlight: true,

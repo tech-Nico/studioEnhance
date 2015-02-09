@@ -6,7 +6,6 @@ var getStudioTab = function(){
   var res = "";
 
   var urlTabs = url.split("/tab/");
-  console.log("UrlTabs: " + urlTabs);
 
   if (urlTabs && urlTabs != null && urlTabs.length > 0){
      var res = urlTabs[urlTabs.length - 1].split("/")[0].split("?")[0];
@@ -33,8 +32,6 @@ var getEditorOption = function(mode, callback){
     matchBracket : true,
     codeHint : true
   }, function(items) {
-  		console.log("Setting options to ... ");
-  		console.log(items);
     	var options = {
         	 mode: mode,
          	lineNumbers: items.lineNumbers,
@@ -60,8 +57,6 @@ var getEditorOption = function(mode, callback){
     		options.mode = "";
     	}
 
-    	console.log("Setting FINAL options to...");
-    	console.log(options);
     	callback(options);
   });
 
@@ -249,9 +244,25 @@ var enhanceApiBrowser = function() {
     }
 }
 
+var enhanceInitScript = function() {
+	var textarea = document.getElementById("lia-commonInitContent");
+    if (textarea != null) {
+      var options = getEditorOption("text/html", function(options){
+      	options.autoCloseBrackets = true;
+      	var editor = CodeMirror.fromTextArea(textarea, options);
+	  	$('.CodeMirror').resizable({
+			resize: function() {
+									editor.setSize($(this).width(), $(this).height());
+								}
+	   	});	
+      });
+    }
+}
+
 var enableEnhancement = function() {
 	$(".CodeMirror.cm-s-default").remove(); //Replace any existing Codemirror instance
 	var tab = getStudioTab();
+	console.log("Current studio tab is " + tab);
 	switch (tab) {
 	  case "custom-content" :
 	   enhanceComponentEditor();
@@ -263,7 +274,7 @@ var enableEnhancement = function() {
 	  case "layout-editor" :
 	   enhanceLayoutEditor();
 	   break;
-	  case "community-style:wrapper" :
+	  case "wrapper" :
 	   enhanceWrapperEditor();
 	   break;
 	  case "css" :
@@ -275,6 +286,9 @@ var enableEnhancement = function() {
 	  case "api-browser" :
 	    enhanceApiBrowser();
 	    break;
+	  case "init" :
+	  	enhanceInitScript();
+	  	break;
 	}
 }
 
