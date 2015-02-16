@@ -130,7 +130,7 @@ var _return = {
 var enhanceComponentEditor = function(){
 	var textarea = document.getElementById("lia-componentContent");
 	if (textarea != null) {
-		 getEditorOption("text/html", 
+		 getEditorOption("xml", 
 			function(mode){
   				var editor = CodeMirror.fromTextArea(document.getElementById("lia-componentContent"),mode);
 	  			$('.CodeMirror').resizable({
