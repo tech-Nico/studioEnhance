@@ -10,17 +10,58 @@
   <div class="option"><input type="checkbox" value="matchTag" id="matchTag">Highlight Matching Tag</input></div>
   <div class="option"><input type="checkbox" value="matchBracket" id="matchBracket">Highlight Matching Bracket</input></div>
   <div class="option"><input type="checkbox" value="codeHint" id="codeHint">Code Completion (ctrl+space)</input></div>
+  <div class="option"><label>Theme: <select id="theme">
+                         <option></option>
+                         <option>3024-day</option>
+                         <option>3024-night</option>
+                         <option>ambiance-mobile</option>
+                         <option>ambiance</option>
+                         <option>base16-dark</option>
+                         <option>base16-light</option>
+                         <option>blackboard</option>
+                         <option>cobalt</option>
+                         <option>eclipse</option>
+                         <option>elegant</option>
+                         <option>erlang-dark</option>
+                         <option>lesser-dark</option>
+                         <option>mbo</option>
+                         <option>mdn-like</option>
+                         <option>midnight</option>
+                         <option>monokai</option>
+                         <option>neat</option>
+                         <option>neo</option>
+                         <option>night</option>
+                         <option>paraiso-dark</option>
+                         <option>paraiso-light</option>
+                         <option>pastel-on-dark</option>
+                         <option>rubyblue</option>
+                         <option>solarized</option>
+                         <option>the-matrix</option>
+                         <option>tomorrow-night-bright</option>
+                         <option>tomorrow-night-eighties</option>
+                         <option>twilight</option>
+                         <option>vibrant-ink</option>
+                         <option>xq-dark</option>
+                         <option>xq-light</option>
+                         <option>zenburn</option>
+                      </select>
 </div>	
   <div id="status"></div>
-  <button id="save">Save</button>
-
+  <div class="saveBtn">
+    <button id="save">Save</button>
+  </div>
    
 <script src="js/options.js"></script>
 
 <style>
   body {
-  	width: 200px;
-  	height: 100px;
+  	width: 250px;
+  	height: auto;
+  }
+
+  .saveBtn {
+    text-align: center;
+    margin-top: 5px;
   }
 </style>
 </body>

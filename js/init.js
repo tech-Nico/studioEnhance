@@ -23,6 +23,7 @@ var getEditorOption = function(mode, callback){
   var matchTag = true;
   var matchBracket = true;
   var codeHint = true;
+  var theme = null;
 
  chrome.storage.sync.get({
     syntaxHighlight: true,
@@ -30,10 +31,11 @@ var getEditorOption = function(mode, callback){
     wrapLines : true,
     matchTag: true,
     matchBracket : true,
-    codeHint : true
+    codeHint : true,
+    theme: null
   }, function(items) {
     	var options = {
-        	 mode: mode,
+        	mode: mode,
          	lineNumbers: items.lineNumbers,
          	lineWrapping: items.wrapLines,
          	foldGutter: {
@@ -48,8 +50,24 @@ var getEditorOption = function(mode, callback){
             	"' '": completeIfInTag,
             	"'='": completeIfInTag,
             	"Ctrl-Space": "autocomplete"
-         	},
+         	}
     	};
+
+
+      if (items.theme && items.theme != null && items.theme != "" ){
+        options.theme = items.theme;
+        //This would have loaded the theme CSS dynamically but
+        //the web_accessible_resources manifest setting doesn't seem to work
+        /* var css = "/css/themes/" + items.theme + ".css";
+        console.log("Selected theme " + css);
+        var link = document.createElement('link');
+        link.href =  chrome.extension.getURL(css);
+        //chrome-extension://<extension id>/main.css
+        link.rel = 'stylesheet';
+        document.getElementsByTagName("head")[0].appendChild(link); */
+      } else {
+        options.theme = "default";
+      }
 
     	if (codeHint)
     		options.hintOptions = {schemaInfo: tags};
