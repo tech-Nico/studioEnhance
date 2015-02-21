@@ -3,7 +3,7 @@
 
   "name": "Lithium Studio Editor Enhancement",
   "description": "Extends the functionality of Lithium Studio Editor by adding syntax highlighting, line numbers, code folding, etc...",
-  "version": "1.8",
+  "version": "1.9",
   "author" : "Nico Balestra",
   "icons" : {"128" : "icon_128.png"},
   "background": {
@@ -24,7 +24,8 @@
                   "*://*/t5/bizapps/bizappspage/tab/community%3Astudio%3Alayout-editor*",
                   "*://*/t5/bizapps/bizappspage/tab/community%3Astudio%3Aapi-browser*",
                   "*://*/t5/bizapps/bizappspage/tab/community%3Astudio%3Acommunity-style%3Acss*",
-                  "*://*/t5/bizapps/page/tab/community%3Astudio*"],
+                  "*://*/t5/bizapps/page/tab/community%3Astudio*",
+                  "*://*/t5/bizapps/bizappspage/tab/community%3Astudio%3Ainit*"],
       "css": ["css/codemirror.css", 
               "css/show-hint.css",
               "css/docs.css",
@@ -60,7 +61,8 @@
               "css/themes/vibrant-ink.css",
               "css/themes/xq-dark.css",
               "css/themes/xq-light.css",
-              "css/themes/zenburn.css"
+              "css/themes/zenburn.css",
+              "css/fullscreen.css"
               ],
       "js": ["js/jquery.js",
              "js/jquery-ui.min.js",
@@ -80,6 +82,8 @@
              "js/codemirror/brace-fold.js",    
              "js/codemirror/comment-fold.js",  
              "js/codemirror/xml-fold.js",  
+             "js/codemirror/fullscreen.js",
+             "js/codemirror/active-line.js",
              "js/init.js"
         ]
 

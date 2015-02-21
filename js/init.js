@@ -16,6 +16,30 @@ var getStudioTab = function(){
   return res;
 }
 
+var setFullScreenLink = function(editor){
+  var id = "FullScreenLink" + editor.getTextArea().id;
+
+  var link = "<span class='FullScreenLink'><a id='" + id + "' href='#'>Go Fullscreen (Esc to exit)</a></span>";
+  var cd = $(editor.getWrapperElement());
+
+  cd.prepend(link);
+  $("#" + id).on("click", function(e){
+    e.preventDefault();
+    var isFullscreen = editor.getOption("fullScreen");
+
+    editor.setOption("fullScreen", !isFullscreen);
+    $("#" + id).text(function(i, old){
+      if (isFullscreen){
+        return "Go Fullscreen (Esc to exit)";
+      }else{
+        return "Exit Fullscreen (or press Esc)";
+      }  
+    });
+    
+  });  
+
+}
+
 var getEditorOption = function(mode, callback){
   var syntaxHighlight = true;
   var lineNumbers = true;
@@ -43,13 +67,20 @@ var getEditorOption = function(mode, callback){
          	},
          	gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"],
          	matchTags: {bothTags: items.matchTag},
-         	matchBrackets: items.matchBracket,
-	     	extraKeys: {
+         	matchBrackets: items.matchBracket,      
+          styleActiveLine: true,    
+	     	  extraKeys: {
             	"'<'": completeAfter,
             	"'/'": completeIfAfterLt,
             	"' '": completeIfInTag,
             	"'='": completeIfInTag,
-            	"Ctrl-Space": "autocomplete"
+            	"Ctrl-Space": "autocomplete",
+              "Esc" : function(cm) {
+                    if (cm.getOption("fullScreen")) {
+                        cm.setOption("fullScreen", false);
+                        $('[id^="FullScreenLink"]').text("Go Fullscreen (Esc to exit)");
+                    }
+              }
          	}
     	};
 
@@ -156,6 +187,7 @@ var enhanceComponentEditor = function(){
 											editor.setSize($(this).width(), $(this).height());
 											}
 	   			});
+          setFullScreenLink(editor);
     		});
     }
 }
@@ -171,6 +203,7 @@ var enhancePageEditor = function(){
 															editor.setSize($(this).width(), $(this).height());
 												}	
 									});
+       setFullScreenLink(editor);
 		});
        }
   	 });
@@ -183,9 +216,10 @@ var enhanceLayoutEditor = function(){
  			var editor = CodeMirror.fromTextArea(document.getElementsByClassName("lia-layout-editor-xml")[0], mode);
 		   	$('.CodeMirror').resizable({
 		    							resize: function() {
-											editor.setSize($(this).width(), $(this).height());
-										}
+			           								editor.setSize($(this).width(), $(this).height());
+								  		}
 	   								});
+      setFullScreenLink(editor);
 
        	  });
        }
@@ -204,7 +238,11 @@ var enhanceWrapperEditor = function(){
       		var editorFooter = CodeMirror.fromTextArea(liaFooter.get(0), defaultOptions);
       		var editorHeader = CodeMirror.fromTextArea(liaHeader.get(0), defaultOptions);
       		var editorHead = CodeMirror.fromTextArea(liaHead.get(0),defaultOptions);
-    
+          setFullScreenLink(editorHitbox);
+          setFullScreenLink(editorFooter);
+          setFullScreenLink(editorHeader);
+          setFullScreenLink(editorHead);
+
       		$('.CodeMirror').resizable({
         		resize: function() {
           					editorHead.setSize($(this).width(), $(this).height());
@@ -222,11 +260,12 @@ var enhanceCssEditor = function() {
      if (textarea.attr("disabled") == undefined){         
        getEditorOption("text/css", function(mode) {
        	var editor = CodeMirror.fromTextArea(textarea.get(0), mode);
-	   	$('.CodeMirror').resizable({
+	   	  $('.CodeMirror').resizable({
 		 							resize: function() {
 		   								editor.setSize($(this).width(), $(this).height());
 	     							}
 	   								});
+      setFullScreenLink(editor);
        });	
      }
 }
@@ -242,6 +281,7 @@ var enhanceEndpointEditor = function() {
 													editor.setSize($(this).width(), $(this).height());
 										}
 	   								});		
+        setFullScreenLink(editor);
     	});
       
     }
@@ -254,10 +294,13 @@ var enhanceApiBrowser = function() {
       	options.autoCloseBrackets = true;
       	var editor = CodeMirror.fromTextArea(textarea, options);
 	  	$('.CodeMirror').resizable({
-			resize: function() {
+			       resize: function() {
 									editor.setSize($(this).width(), $(this).height());
-								}
-	   	});	
+							}
+	   	});
+
+      setFullScreenLink(editor);
+
       });
     }
 }
@@ -272,13 +315,14 @@ var enhanceInitScript = function() {
 			resize: function() {
 									editor.setSize($(this).width(), $(this).height());
 								}
-	   	});	
+	   	 });	
+      setFullScreenLink(editor);
       });
     }
 }
 
 var enableEnhancement = function() {
-	$(".CodeMirror.cm-s-default").remove(); //Replace any existing Codemirror instance
+	$(".CodeMirror").remove(); //Replace any existing Codemirror instance
 	var tab = getStudioTab();
 	console.log("Current studio tab is " + tab);
 	switch (tab) {
