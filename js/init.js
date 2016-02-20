@@ -227,25 +227,26 @@ var enhanceLayoutEditor = function(){
 }
 
 var enhanceWrapperEditor = function(){ 
-    var liaHead = $("#lia-head");
-	var liaHeader = $("#lia-header");
-	var liaFooter = $("#lia-footer");
-	var liaHitbox = $("#lia-hitbox");
-	getEditorOption("text/html", function(defaultOptions){
+  var liaHeadTop = $("#lia-headTop");
+  
+  getEditorOption("text/html", function(defaultOptions){
 
-		if (liaHead.attr("disabled") == undefined){
-      		var editorHitbox = CodeMirror.fromTextArea(liaHitbox.get(0), defaultOptions);
-      		var editorFooter = CodeMirror.fromTextArea(liaFooter.get(0), defaultOptions);
-      		var editorHeader = CodeMirror.fromTextArea(liaHeader.get(0), defaultOptions);
-      		var editorHead = CodeMirror.fromTextArea(liaHead.get(0),defaultOptions);
+		if (liaHeadTop.attr("disabled") == undefined){
+      		var editorHitbox = CodeMirror.fromTextArea(document.getElementById("lia-hitbox"), defaultOptions);
+      		var editorFooter = CodeMirror.fromTextArea(document.getElementById("lia-footer"), defaultOptions);
+      		var editorHeader = CodeMirror.fromTextArea(document.getElementById("lia-header"), defaultOptions);
+      		var editorHeadTop = CodeMirror.fromTextArea(document.getElementById("lia-headTop"), defaultOptions);
+          var editorHeadBottom = CodeMirror.fromTextArea(document.getElementById("lia-headBottom"), defaultOptions);
           setFullScreenLink(editorHitbox);
           setFullScreenLink(editorFooter);
           setFullScreenLink(editorHeader);
-          setFullScreenLink(editorHead);
+          setFullScreenLink(editorHeadTop);
+          setFullScreenLink(editorHeadBottom);
 
       		$('.CodeMirror').resizable({
         		resize: function() {
-          					editorHead.setSize($(this).width(), $(this).height());
+          					editorHeadTop.setSize($(this).width(), $(this).height());
+                    editorHeadBottom.setSize($(this).width(), $(this).height());
           					editorHeader.setSize($(this).width(), $(this).height());
           					editorFooter.setSize($(this).width(), $(this).height());
           					editorHitbox.setSize($(this).width(), $(this).height());			
@@ -321,10 +322,26 @@ var enhanceInitScript = function() {
     }
 }
 
+var enhanceSassEditor = function() {
+  var textarea = document.getElementById("lia-scssContent");
+    if (textarea != null) {
+      var options = getEditorOption("text/x-scss", function(options){
+        options.autoCloseBrackets = true;
+        var editor = CodeMirror.fromTextArea(textarea, options);
+        $('.CodeMirror').resizable({
+          resize: function() {
+                  editor.setSize($(this).width(), $(this).height());
+                }
+         });  
+        setFullScreenLink(editor);
+        });
+    }
+}
+
 var enableEnhancement = function() {
 	$(".CodeMirror").remove(); //Replace any existing Codemirror instance
 	var tab = getStudioTab();
-	console.log("Current studio tab is " + tab);
+  console.log("Current studio tab is " + tab);
 	switch (tab) {
 	  case "custom-content" :
 	   enhanceComponentEditor();
@@ -351,6 +368,9 @@ var enableEnhancement = function() {
 	  case "init" :
 	  	enhanceInitScript();
 	  	break;
+    case "sass" : 
+      enhanceSassEditor();
+      break;
 	}
 }
 

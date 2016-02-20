@@ -3,7 +3,7 @@
 
   "name": "Lithium Studio Editor Enhancement",
   "description": "Extends the functionality of Lithium Studio Editor by adding syntax highlighting, line numbers, code folding, etc...",
-  "version": "1.9",
+  "version": "2.0",
   "author" : "Nico Balestra",
   "icons" : {"128" : "icon_128.png"},
   "background": {
@@ -25,7 +25,8 @@
                   "*://*/t5/bizapps/bizappspage/tab/community%3Astudio%3Aapi-browser*",
                   "*://*/t5/bizapps/bizappspage/tab/community%3Astudio%3Acommunity-style%3Acss*",
                   "*://*/t5/bizapps/page/tab/community%3Astudio*",
-                  "*://*/t5/bizapps/bizappspage/tab/community%3Astudio%3Ainit*"],
+                  "*://*/t5/bizapps/bizappspage/tab/community%3Astudio%3Ainit*",
+                  "*://*/t5/bizapps/bizappspage/tab/community%3Astudio%3Acommunity-style%3Asass*"],
       "css": ["css/codemirror.css", 
               "css/show-hint.css",
               "css/docs.css",
