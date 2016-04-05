@@ -324,7 +324,8 @@ var enhanceInitScript = function() {
 
 var enhanceSassEditor = function() {
   var textarea = document.getElementById("lia-scssContent");
-    if (textarea != null) {
+  var disabled = (textarea.getAttribute("disabled") == "disabled");
+  if (textarea != null && !disabled) {
       var options = getEditorOption("text/x-scss", function(options){
         options.autoCloseBrackets = true;
         var editor = CodeMirror.fromTextArea(textarea, options);
