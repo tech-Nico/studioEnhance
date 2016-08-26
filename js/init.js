@@ -358,7 +358,7 @@ var enableEnhancement = function() {
 	   enhanceWrapperEditor();
 	   break;
 	  case "css" :
-	   enhanceCssEditor();
+	   enhanceSassEditor();
 	   break;
 	  case "endpoints" :
 	   enhanceEndpointEditor();
@@ -366,11 +366,9 @@ var enableEnhancement = function() {
 	  case "api-browser" :
 	    enhanceApiBrowser();
 	    break;
+      case "advanced":
 	  case "init" :
 	  	enhanceInitScript();
-	  	break;
-    case "sass" : 
-      enhanceSassEditor();
       break;
 	}
 }
